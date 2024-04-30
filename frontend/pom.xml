@@ -15,7 +15,6 @@
         <node.version>v16.17.0</node.version>
         <plugin.frontend.version>1.14.2</plugin.frontend.version>
         <plugin.frontend.nodeDownloadRoot>http://nodejs.org/dist/</plugin.frontend.nodeDownloadRoot>
-        <version.swagger-codegen-cli>3.0.50</version.swagger-codegen-cli>
     </properties>
 
     <dependencies>
@@ -71,7 +70,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.1</version>
                 <configuration>
                     <classesDirectory>target/dist</classesDirectory>
                 </configuration>
