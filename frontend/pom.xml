@@ -12,8 +12,8 @@
 
 
     <properties>
-        <node.version>v16.17.0</node.version>
-        <plugin.frontend.version>1.14.2</plugin.frontend.version>
+        <node.version>v20.18.0</node.version>
+        <plugin.frontend.version>1.15.1</plugin.frontend.version>
         <plugin.frontend.nodeDownloadRoot>http://nodejs.org/dist/</plugin.frontend.nodeDownloadRoot>
     </properties>
 
