@@ -4,8 +4,8 @@ Mögliche Punktzahl: 20 Punkte
 
 ## Deadlines
 
-- 1. Zug: 28.11.2024
-- 2. Zug: 28.11.2024 
+- 1. Zug: 28.05.2025
+- 2. Zug: 27.05.2025 
 
 ## Aufgabenstellung
 In dieser Aufgabe erhalten Sie ein vorkonfiguriertes Projekt, das aus drei Komponenten besteht:
