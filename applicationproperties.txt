@@ -1,0 +1,92 @@
+# =======================
+# Datenbankkonfiguration
+# =======================
+
+# Art der verwendeten Datenbank (MySQL)
+quarkus.datasource.db-kind=mysql
+
+# Benutzername für den Datenbankzugriff
+quarkus.datasource.username=root
+
+# Passwort für den Datenbankzugriff
+quarkus.datasource.password=geheim
+
+# JDBC-Verbindungs-URL zur lokalen MySQL-Datenbank "VA_APP"
+quarkus.datasource.jdbc.url=jdbc:mysql://localhost:3306/VA_APP
+
+# ======================
+# Verbindungspooling
+# ======================
+
+# Minimale Anzahl an offenen Datenbankverbindungen
+quarkus.datasource.jdbc.min-size=2
+
+# Maximale Anzahl an offenen Datenbankverbindungen
+quarkus.datasource.jdbc.max-size=10
+
+# ===================================
+# Zusätzliche JDBC-Verbindungseigenschaften
+# ===================================
+
+# Zeitzone für die Datenbankverbindung
+quarkus.datasource.jdbc.additional-jdbc-properties.serverTimezone=CET
+
+# Zeitzonenkompatibilität mit JDBC
+quarkus.datasource.jdbc.additional-jdbc-properties.useJDBCCompliantTimezoneShift=true
+
+# Verwendet moderne Zeit- und Datumsbehandlung (empfohlen: false)
+quarkus.datasource.jdbc.additional-jdbc-properties.useLegacyDatetimeCode=false
+
+# Aktiviert Unicode-Unterstützung
+quarkus.datasource.jdbc.additional-jdbc-properties.useUnicode=true
+
+# Zeichensatz für die Verbindung (UTF-8 wird für internationale Zeichen empfohlen)
+quarkus.datasource.jdbc.additional-jdbc-properties.characterEncoding=UTF-8
+
+# Konvertiert "0000-00-00"-Zeitwerte in NULL (vermeidet Fehler bei ungültigen Zeitwerten)
+quarkus.datasource.jdbc.additional-jdbc-properties.zeroDateTimeBehavior=CONVERT_TO_NULL
+
+# Deaktiviert SSL (nur für Entwicklung; in Produktion mit Bedacht setzen)
+quarkus.datasource.jdbc.additional-jdbc-properties.useSSL=false
+
+# Erlaubt die Abfrage des Public Keys für verschlüsselte Verbindungen
+quarkus.datasource.jdbc.additional-jdbc-properties.allowPublicKeyRetrieval=true
+
+# Timeout in Millisekunden für das Lesen von Daten
+quarkus.datasource.jdbc.additional-jdbc-properties.socketTimeout=90000
+
+# Timeout in Millisekunden für den Verbindungsaufbau
+quarkus.datasource.jdbc.additional-jdbc-properties.connectTimeout=90000
+
+# ========================
+# Hibernate ORM Konfiguration
+# ========================
+
+# Paket, in dem sich alle JPA-Entities befinden
+quarkus.hibernate-orm.packages=de.berlin.htw.entity.dto
+
+# Optional: Aktiviert SQL-Logging im Terminal (nur für Debug-Zwecke)
+#quarkus.hibernate-orm.log.sql=true
+
+# ========================
+# Liquibase Migration
+# ========================
+
+# Führt Datenbankmigrationen beim Start der Anwendung automatisch aus
+quarkus.liquibase.migrate-at-start=true
+
+# Pfad zur XML-Datei mit den definierten Liquibase-Migrationen
+quarkus.liquibase.change-log=META-INF/liquibase-changelog.xml
+
+# ========================
+# CORS (Cross-Origin Resource Sharing)
+# ========================
+
+# Erlaubt Anfragen vom Frontend unter localhost:5173 (z. B. Vite oder Vue)
+quarkus.http.cors.origins=http://localhost:5173
+
+# HTTP Header-Konfigurationen für CORS
+# Achtung: "*" erlaubt alle Ursprünge, Header und Methoden – nicht sicher für Produktion!
+quarkus.http.header."Access-Control-Allow-Origin".value=*
+quarkus.http.header."Access-Control-Allow-Headers".value=*
+quarkus.http.header."Access-Control-Allow-Methods".value=*
