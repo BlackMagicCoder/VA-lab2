@@ -1,32 +1,112 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--
-#
-# Author: Alexander Stanik [stanik@htw-berlin.de]
-#
- -->
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+       http://www.liquibase.org/xml/ns/dbchangelog
+       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="verteilte-anwendungen-0.0.1" author="stanik@htw-berlin.de">
+    <!-- =============================================== -->
+    <!-- Erstes ChangeSet: Anlegen der USER-Tabelle     -->
+    <!-- =============================================== -->
+    <changeSet
+            id="verteilte-anwendungen-0.0.1"
+            author="stanik@htw-berlin.de">
 
+        <!-- createTable: definiert eine neue Tabelle namens USER -->
         <createTable tableName="USER">
+
+            <!-- Spalte ID: UUID als char(36), darf nicht NULL sein, wird Primärschlüssel -->
             <column name="ID" type="char(36)">
-                <constraints nullable="false" primaryKey="true" />
+                <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="NAME" type="varchar(255)" />
+
+            <!-- Spalte NAME: varchar(255), kann NULL sein -->
+            <column name="NAME" type="varchar(255)"/>
+
+            <!-- Spalte EMAIL: varchar(255), darf nicht NULL sein -->
             <column name="EMAIL" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
+
+            <!-- Spalte CREATED_AT: timestamp mit Default current_timestamp, nicht NULL -->
             <column name="CREATED_AT" type="timestamp" defaultValueComputed="current_timestamp">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
         </createTable>
-        <addUniqueConstraint tableName="USER" columnNames="EMAIL" constraintName="UNIQUE_EMAIL" />
 
-        <createIndex indexName="IDX_EMAIL_LOOKUP" tableName="USER">
-            <column name="EMAIL" type="varchar(255)" />
+        <!-- addUniqueConstraint: sorgt dafür, dass EMAIL in USER einzigartig ist -->
+        <addUniqueConstraint
+                tableName="USER"
+                columnNames="EMAIL"
+                constraintName="UNIQUE_EMAIL"/>
+
+        <!-- createIndex: legt einen Index auf USER(EMAIL) an für schnellere Suchen -->
+        <createIndex
+                indexName="IDX_EMAIL_LOOKUP"
+                tableName="USER">
+            <column name="EMAIL"/>
         </createIndex>
+
+    </changeSet>
+
+    <!-- =============================================== -->
+    <!-- Zweites ChangeSet: Anlegen von PROJECT und      -->
+    <!-- Junction-Tabelle USER_PROJECT für Many-to-Many -->
+    <!-- =============================================== -->
+    <changeSet
+            id="verteilte-anwendungen-0.0.2"
+            author="Cedric.Arnhold@Student.HTW-Berlin.de">
+
+        <!-- 1) PROJECT-Tabelle: speichert Projekte -->
+        <createTable tableName="PROJECT">
+            <!-- Projekt-ID als UUID char(36), PK -->
+            <column name="ID" type="char(36)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <!-- Name des Projekts, Pflichtfeld -->
+            <column name="NAME" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Optionale Beschreibung -->
+            <column name="DESCRIPTION" type="text"/>
+        </createTable>
+
+        <!-- 2) USER_PROJECT: Junction-Table für Many-to-Many -->
+        <createTable tableName="USER_PROJECT">
+            <!-- FK auf USER.ID -->
+            <column name="USER_ID" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- FK auf PROJECT.ID -->
+            <column name="PROJECT_ID" type="char(36)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- addPrimaryKey: zusammengesetzter PK aus USER_ID + PROJECT_ID -->
+        <addPrimaryKey
+                tableName="USER_PROJECT"
+                columnNames="USER_ID,PROJECT_ID"
+                constraintName="PK_USER_PROJECT"/>
+
+        <!-- addForeignKeyConstraint: definiert FK USER_PROJECT.USER_ID → USER.ID -->
+        <addForeignKeyConstraint
+                baseTableName="USER_PROJECT"
+                baseColumnNames="USER_ID"
+                referencedTableName="USER"
+                referencedColumnNames="ID"
+                constraintName="FK_UP_USER"
+                onDelete="CASCADE"/>
+
+        <!-- addForeignKeyConstraint: definiert FK USER_PROJECT.PROJECT_ID → PROJECT.ID -->
+        <addForeignKeyConstraint
+                baseTableName="USER_PROJECT"
+                baseColumnNames="PROJECT_ID"
+                referencedTableName="PROJECT"
+                referencedColumnNames="ID"
+                constraintName="FK_UP_PROJECT"
+                onDelete="CASCADE"/>
 
     </changeSet>
 
