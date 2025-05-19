@@ -45,3 +45,11 @@ Fügt nachträglich einen zusammengesetzten Primärschlüssel hinzu (hier für J
 Verknüpft zwei Tabellen über einen Foreign Key.
 
 onDelete="CASCADE" sorgt dafür, dass beim Löschen des Parent-Datensatzes alle zugehörigen Junction-Zeilen mitgelöscht werden.
+
+
+Aufgabe 3:
+CREATE TABLE PROJECT (
+ID CHAR(36) PRIMARY KEY,
+NAME VARCHAR(255) NOT NULL,
+DESCRIPTION TEXT
+);

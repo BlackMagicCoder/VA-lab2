@@ -1,17 +1,8 @@
 package de.berlin.htw.entity.dto;
 
-import java.util.Date;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
 import de.berlin.htw.lib.model.UserModel;
@@ -38,6 +29,14 @@ public class UserEntity implements UserModel {
     @Column(name = "CREATED_AT", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
+    /**
+     * Inverse side of the Many-To-Many mit Project.
+     */
+    @ManyToMany(mappedBy = "users")
+    private Set<Project> projects = new HashSet<>();
+
+    // --- Getter/Setter ---
 
     @Override
     public String getId() {
@@ -69,16 +68,22 @@ public class UserEntity implements UserModel {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
     @PrePersist
     public void created() {
-
-        final Date now = new Date();
-        createdAt = now;
+        this.createdAt = new Date();
     }
 
     @Override
