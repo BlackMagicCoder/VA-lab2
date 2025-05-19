@@ -7,6 +7,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 
 import java.util.List;
 import java.util.Set;
@@ -43,10 +44,7 @@ public class ProjectController {
      */
     @Transactional
     public Project update(String id, Project data) {
-        Project existing = em.find(Project.class, id);
-        if (existing == null) {
-            throw new IllegalArgumentException("Projekt nicht gefunden: " + id);
-        }
+        Project existing = findById(id);
         existing.setName(data.getName());
         existing.setDescription(data.getDescription());
         return existing;
@@ -107,5 +105,15 @@ public class ProjectController {
             throw new IllegalArgumentException("Projekt nicht gefunden: " + projectId);
         }
         return project.getUsers();
+    }
+    /**
+     * Findet ein Projekt oder wirft NotFoundException.
+     */
+    public Project findById(String id) {
+        Project existing = em.find(Project.class, id);
+        if (existing == null) {
+            throw new NotFoundException("Projekt nicht gefunden: " + id);
+        }
+        return existing;
     }
 }

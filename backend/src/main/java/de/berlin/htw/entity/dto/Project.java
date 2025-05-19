@@ -1,5 +1,6 @@
 package de.berlin.htw.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.*;
 
@@ -21,6 +22,7 @@ public class Project {
     @JoinTable(name = "USER_PROJECT",
             joinColumns = @JoinColumn(name = "PROJECT_ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    @JsonIgnore
     private Set<UserEntity> users = new HashSet<>();
 
     @PrePersist
@@ -29,8 +31,6 @@ public class Project {
             this.id = UUID.randomUUID().toString();
         }
     }
-
-    // --- Getter / Setter ---
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

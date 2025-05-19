@@ -4,6 +4,7 @@ import java.util.*;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import de.berlin.htw.lib.model.UserModel;
 
@@ -34,6 +35,7 @@ public class UserEntity implements UserModel {
      * Inverse side of the Many-To-Many mit Project.
      */
     @ManyToMany(mappedBy = "users")
+    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
     // --- Getter/Setter ---

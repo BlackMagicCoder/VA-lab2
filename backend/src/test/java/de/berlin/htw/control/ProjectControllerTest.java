@@ -4,6 +4,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -63,14 +64,19 @@ public class ProjectControllerTest {
     // Test5: update() wirft IllegalArgumentException bei nicht existierendem Projekt
     @Test
     public void testUpdateNonexistentThrows() {
-        String rnd = UUID.randomUUID().toString();       // zufällige ID als String
-        Project bogus = new Project();
-        bogus.setName("None");
+        // Erzeuge eine zufällige ID
+        String randomId = UUID.randomUUID().toString();
 
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> controller.update(rnd, bogus)
-        );
+        // Erzeuge ein Dummy-Project-DTO mit sinnvollen Feldern
+        Project data = new Project();
+        data.setName("DoesNotExist");
+        data.setDescription("This project does not exist");
+
+        // Jetzt prüfen wir, dass beim Update auf eine nicht existente ID
+        // genau eine NotFoundException geworfen wird
+        assertThrows(NotFoundException.class, () -> {
+            controller.update(randomId, data);
+        });
     }
 
     // Test6: assignUserToProject() verknüpft Nutzer und Projekt (ManyToMany)

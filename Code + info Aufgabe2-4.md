@@ -53,3 +53,8 @@ ID CHAR(36) PRIMARY KEY,
 NAME VARCHAR(255) NOT NULL,
 DESCRIPTION TEXT
 );
+
+Aufgabe 4:
+@Transactional sorgt dafür, dass die JPA-Session noch offen ist, während das Set initialisiert.
+@JsonIgnore: Beim Erzeugen der JSON-Antwort wird UserEntity.projects nicht mehr beachtet.
+
